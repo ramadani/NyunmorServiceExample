@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private fun onStartNyunmorService() {
         val nyunService = Intent(this, NyunmorService::class.java)
         nyunService.putExtra("nyun", "nyunmor biar kuat")
+        nyunService.putExtra("receiver", nyunReceiver)
         startService(nyunService)
     }
 
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         nyunReceiver?.setReceiver(object : NyunmorResultReceiver.Receiver {
             override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                 if (resultCode == Activity.RESULT_OK) {
-                    val resultValue = resultData?.getString("nyunValue")
+                    val resultValue = resultData?.getString("resultValue")
                     toast(resultValue)
                 }
             }
