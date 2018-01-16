@@ -1,11 +1,9 @@
 package io.github.ramadani.javanupgrade2018
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.IntentService
 import android.content.Intent
-import android.os.Bundle
-import android.support.v4.os.ResultReceiver
+import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 
 /**
@@ -14,18 +12,19 @@ import android.util.Log
 class NyunmorService(name: String? = "nyunmor-service") : IntentService(name) {
     companion object {
         val TAG = NyunmorService::class.java.simpleName
+        val ACTION = "io.github.ramadani.javanupgrade2018.NyunmorService"
     }
 
-    @SuppressLint("RestrictedApi")
     override fun onHandleIntent(intent: Intent?) {
         val nyunVal = intent?.getStringExtra("nyun")
         Log.d(TAG, "message from Nyunmor Planet")
         Log.d(TAG, "value from nyun extra: $nyunVal")
 
-        val bundle = Bundle()
-        val receiver = intent?.getParcelableExtra("receiver") as ResultReceiver
         val resultValue = "This is result from service = $nyunVal Great"
-        bundle.putString("resultValue", resultValue)
-        receiver.send(Activity.RESULT_OK, bundle)
+        val intent = Intent(ACTION)
+        intent.putExtra("resultCode", Activity.RESULT_OK)
+        intent.putExtra("resultValue", resultValue)
+
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 }
