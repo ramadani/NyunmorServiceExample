@@ -1,11 +1,14 @@
 package io.github.ramadani.javanupgrade2018
 
 import android.app.Activity
+import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.NotificationCompat
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btnStart.setOnClickListener { onStartNyunmorService() }
+        btnNotify.setOnClickListener { notifyMe() }
     }
 
     override fun onResume() {
@@ -37,6 +41,23 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(nyunReceiver)
+    }
+
+    private fun notifyMe() {
+        val noticeBuilder = notificationBuilder().setSmallIcon(android.R.drawable.ic_media_play)
+                .setContentTitle("My Nyun Notification")
+                .setContentText("Lorem Ipsum is simply dummy text of the printing and typesetting industry")
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(1, noticeBuilder.build())
+    }
+
+    private fun notificationBuilder(): NotificationCompat.Builder {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationCompat.Builder(this, "javan-upgrade-2018")
+        } else {
+            NotificationCompat.Builder(this)
+        }
     }
 
     private fun onStartNyunmorService() {

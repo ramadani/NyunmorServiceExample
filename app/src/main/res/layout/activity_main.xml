@@ -7,18 +7,35 @@
     tools:context="io.github.ramadani.javanupgrade2018.MainActivity"
     tools:layout_editor_absoluteY="81dp">
 
-    <Button
-        android:id="@+id/btnStart"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Start Service"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:padding="16dp"
+            android:text="Start Service" />
+
+        <Button
+            android:id="@+id/btnNotify"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:padding="16dp"
+            android:text="Send Notif" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
