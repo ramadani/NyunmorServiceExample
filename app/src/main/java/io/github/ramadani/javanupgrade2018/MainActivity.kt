@@ -2,6 +2,7 @@ package io.github.ramadani.javanupgrade2018
 
 import android.app.Activity
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -29,7 +30,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btnStart.setOnClickListener { onStartNyunmorService() }
-        btnNotify.setOnClickListener { notifyMe() }
+        btnNotification.setOnClickListener { sendNotificationToMe() }
+        btnNotificationWithAction.setOnClickListener { notificationWithAction() }
     }
 
     override fun onResume() {
@@ -43,12 +45,19 @@ class MainActivity : AppCompatActivity() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(nyunReceiver)
     }
 
-    private fun notifyMe() {
+    private fun onStartNyunmorService() {
+        val nyunService = Intent(this, NyunmorService::class.java)
+        nyunService.putExtra("nyun", "nyunmor biar kuat")
+        startService(nyunService)
+    }
+
+    private fun sendNotificationToMe() {
         val noticeBuilder = notificationBuilder().setSmallIcon(android.R.drawable.ic_media_play)
                 .setContentTitle("My Nyun Notification")
                 .setContentText("Lorem Ipsum is simply dummy text of the printing and typesetting industry")
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE)
+                as NotificationManager
         notificationManager.notify(1, noticeBuilder.build())
     }
 
@@ -60,9 +69,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onStartNyunmorService() {
-        val nyunService = Intent(this, NyunmorService::class.java)
-        nyunService.putExtra("nyun", "nyunmor biar kuat")
-        startService(nyunService)
+    private fun notificationWithAction() {
+        val intent = Intent(this, DetailActivity::class.java)
+        val reqId = System.currentTimeMillis().toInt()
+        val flags = PendingIntent.FLAG_CANCEL_CURRENT
+        val pendingIntent = PendingIntent.getActivity(this, reqId, intent, flags)
+        val notif = notificationBuilder().setSmallIcon(android.R.drawable.ic_media_play)
+                .setContentTitle("My Action Notification")
+                .setContentText("Hello Nyunmor World")
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .addAction(android.R.drawable.ic_menu_add, "Add Action", pendingIntent)
+                .addAction(android.R.drawable.ic_media_pause, "Pause Action", pendingIntent)
+                .build()
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE)
+                as NotificationManager
+        notificationManager.notify(2, notif)
     }
 }

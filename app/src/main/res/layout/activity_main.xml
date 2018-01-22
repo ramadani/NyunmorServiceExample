@@ -14,7 +14,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,20 +22,22 @@
 
         <Button
             android:id="@+id/btnStart"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:padding="16dp"
-            android:text="Start Service" />
+            android:text="@string/start_service" />
 
         <Button
-            android:id="@+id/btnNotify"
+            android:id="@+id/btnNotification"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:padding="16dp"
-            android:text="Send Notif" />
+            android:text="@string/send_notification" />
+
+        <Button
+            android:id="@+id/btnNotificationWithAction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/send_notification_with_action" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
